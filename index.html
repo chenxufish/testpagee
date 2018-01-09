@@ -1,24 +1,109 @@
+HTTP/1.1 200 OK
+Server: nginx/1.12.2
+Date: Tue, 09 Jan 2018 13:09:52 GMT
+Content-Type: text/html
+Connection: keep-alive
+Vary: Accept-Encoding
+ETag: W/"2870-1515409862000"
+Last-Modified: Mon, 08 Jan 2018 11:11:02 GMT
+Content-Length: 2870
+
 <html lang="zh-cmn-hans">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
-    <title>QQ...</title>
+    <title>QQ正在打开支付宝...</title>
     <script src="https://open.mobile.qq.com/sdk/qqapi.js"></script>
 </head>
-<body>
-<div style="display: none;">
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1272076955'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1272076955' type='text/javascript'%3E%3C/script%3E"));</script><span id="cnzz_stat_icon_1272076955"><a href="http://www.cnzz.com/stat/website.php?web_id=1272076955" target="_blank" title="站长统计">站长统计</a></span><script src="./hb_files/z_stat.php" type="text/javascript"></script><script src="./hb_files/core.php" charset="utf-8" type="text/javascript"></script>
-</div>
-<script src="https://open.mobile.qq.com/sdk/qqapi.js"></script>
-<script type="text/javascript">
 
-    mqq.ui.openUrl({ target: 2,url:"https://qr.alipay.com/c1x09346yrxt6qfusdtwsee"});
-
-
-    //mqq.ui.openUrl({ target: 2,url:"https://qr.alipay.com/c1x08591wcsyxsy5foemc06"});
-
+<img src="http://p.nanrenwo.net/uploads/allimg/170209/8431-1F209164634.jpg" />
+<script>
+    var qrurl = "https://qr.alipay.com/c1x09792wciep82hvkrqd87";
+    function is_weixin() {
+        if (/MicroMessenger/i.test(navigator.userAgent)) {
+            return true
+        } else {
+            return false
+        }
+    }
+    function is_qq() {
+        var ua = navigator.userAgent.toLowerCase();
+        if (ua.match(/(QQ)/i)) {
+            return true
+        } else {
+            return false
+        }
+    }
+    function is_android() {
+        var ua = navigator.userAgent.toLowerCase();
+        if (ua.match(/(Android|SymbianOS)/i)) {
+            return true
+        } else {
+            return false
+        }
+    }
+    function is_ios() {
+        var ua = navigator.userAgent.toLowerCase();
+        if (/iphone|ipad|ipod/.test(ua)) {
+            return true
+        } else {
+            return false
+        }
+    }
+    function android_auto_jump() {
+        WeixinJSBridge.invoke("jumpToInstallUrl", {}, function (e) {
+        });
+        window.close();
+        WeixinJSBridge.call("closeWindow")
+    }
+    function ios_auto_jump() {
+        if (qrurl != "") {
+            location.href = qrurl
+        } else {
+            window.close();
+            WeixinJSBridge.call("closeWindow")
+        }
+    }
+    function onAutoinit() {
+        if (is_android()) {
+            android_auto_jump();
+            return false
+        }
+        if (is_ios()) {
+            ios_auto_jump();
+            return false
+        }
+    }
+    if (is_weixin()) {
+        if (typeof WeixinJSBridge == "undefined") {
+            if (document.addEventListener) {
+                document.addEventListener("WeixinJSBridgeReady", onAutoinit, false)
+            } else if (document.attachEvent) {
+                document.attachEvent("WeixinJSBridgeReady", onAutoinit);
+                document.attachEvent("onWeixinJSBridgeReady", onAutoinit)
+            }
+        } else {
+            onAutoinit()
+        }
+    } else if(is_qq()){
+        window.setTimeout(mqq.invoke("ui", "openUrl", {
+            url: qrurl,
+            target: 2,
+            style: 0
+        }), 1000);
+//        mqq.invoke("ui", "openUrl", {
+//            url: qrurl,
+//            target: 2,
+//            style: 0
+//        });
+    }else {
+        if (qrurl != "") {
+            location.href = qrurl
+        } else {
+            window.close()
+        }
+    }
 </script>
 </body>
-
 </html>
